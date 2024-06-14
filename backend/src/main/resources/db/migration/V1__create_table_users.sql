@@ -17,6 +17,11 @@ CREATE TABLE IF NOT EXISTS users (
     dd INT NOT NULL,
     is_admin BOOLEAN NOT NULL,
     phone_number VARCHAR(15) NOT NULL,
+    is_confirmed bit(1) DEFAULT NULL,
+    account_non_expired bit(1) DEFAULT NULL,
+    account_non_locked bit(1) DEFAULT NULL,
+    credentials_non_expired bit(1) DEFAULT NULL,
+    enabled bit(1) DEFAULT NULL,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
     );

@@ -1,9 +1,12 @@
 package com.backend.pizzaria.controllers;
 
+import com.backend.pizzaria.dto.user.UserDTO;
 import com.backend.pizzaria.models.UsersModel;
 import com.backend.pizzaria.repository.UsersRepository;
-import com.backend.pizzaria.util.SecurityConfig;
+import org.apache.catalina.security.SecurityConfig;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -13,7 +16,13 @@ import java.util.List;
 @RequestMapping("/api/users")
 public class UsersController {
     @Autowired
+    private UserDTO userDTO;
+
+    @Autowired
     private UsersRepository usersRepository;
+
+    @Autowired
+    private ModelMapper modelMapper;
 
     @GetMapping("/all")
     public List<UsersModel> getAllUsers(){
@@ -21,23 +30,27 @@ public class UsersController {
     }
 
 
-    @PostMapping("")
+    /*@PostMapping("")
     public UsersModel createUser(@RequestBody UsersModel usersModel) {
-        usersModel.setActive(true);
         usersModel.setConfirmedUser(false);
         SecurityConfig securityConfig = new SecurityConfig();
         usersModel.setPassword(securityConfig.encryptData(usersModel.getPassword()));
-        sendEmailtoConfirmUser();
+        //colocar a parte de confirmação de e-mail
         return usersRepository.save(usersModel);
     }
 
-    public void sendEmailtoConfirmUser(){
-
-    }
-
     @GetMapping("/login")
-    public UsersModel loginUsers(@RequestParam("email") String email, @RequestParam("password") String password) {
+    public ResponseEntity<UserDTO> loginUsers(@RequestParam("email") String email, @RequestParam("password") String password) {
         SecurityConfig securityConfig = new SecurityConfig();
-        return usersRepository.userLogin(email, securityConfig.encryptData(password));
+        UsersModel userFound = usersRepository.userLogin(email, securityConfig.encryptData(password));
+        if(userFound == null){
+            return ResponseEntity.notFound().build();
+        }
+        UserDTO userDTO = toUserModelDTO(userFound);
+        return ResponseEntity.ok(userDTO);
     }
+
+    private UserDTO toUserModelDTO(UsersModel usersModel){
+        return modelMapper.map(usersModel, UserDTO.class);//convertendo a model para dto
+    }*/
 }
