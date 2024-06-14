@@ -5,18 +5,32 @@
             <h1 class="h1 text-center">CADASTRAR-SE</h1>
             <form (ngSubmit)="register()" class="example-form">
                 <mat-form-field class="example-full-width col-md-5 mr-12">
+                    <mat-label>Login</mat-label>
+                    <input name="login" [(ngModel)]="userDto.login" matInput placeholder="Digite o nome do usuário" minlength="4" maxlength="120" required>
+                </mat-form-field>
+
+                <mat-form-field class="example-full-width col-md-6">
+                    <mat-label>Permissão:</mat-label>
+                    <mat-select [(ngModel)]="userDto.role" name="role">
+                        <mat-option *ngFor="let role of roles" [value]="role">
+                            {{ role }}
+                        </mat-option>
+                    </mat-select>
+                </mat-form-field>
+
+                <mat-form-field class="example-full-width col-md-5 mr-12">
                     <mat-label>Nome de usuário</mat-label>
-                    <input name="userName" [(ngModel)]="userName" matInput placeholder="Digite o nome do usuário" minlength="4" maxlength="120" required>
+                    <input name="userName" [(ngModel)]="userDto.userName" matInput placeholder="Digite o nome do usuário" minlength="4" maxlength="120" required>
                 </mat-form-field>
 
                 <mat-form-field class="example-full-width col-md-6">
                     <mat-label>Email</mat-label>
-                    <input name="email" [(ngModel)]="email" matInput placeholder="Digite o seu email" minlength="4" maxlength="120" required>
+                    <input name="email" [(ngModel)]="userDto.email" matInput placeholder="Digite o seu email" minlength="4" maxlength="120" required>
                 </mat-form-field>
 
                 <mat-form-field class="example-full-width col-md-5 mr-12">
                     <mat-label>Senha</mat-label>
-                    <input name="password" [(ngModel)]="password" matInput placeholder="Digite a sua senha" minlength="4" maxlength="120" required>
+                    <input name="password" [(ngModel)]="userDto.password" matInput placeholder="Digite a sua senha" minlength="4" maxlength="120" required>
                 </mat-form-field>
 
                 <mat-form-field class="example-full-width col-md-6">
@@ -27,7 +41,7 @@
 
                 <mat-form-field class="col-md-5">
                     <mat-label>Data de nascimento</mat-label>
-                    <input name="dateBirth" [(ngModel)]="dateOfBirth" matInput [matDatepicker]="picker">
+                    <input name="dateBirth" [(ngModel)]="userDto.dateOfBirth" matInput [matDatepicker]="picker">
                     <mat-hint>MM/DD/YYYY</mat-hint>
                     <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
                     <mat-datepicker #picker></mat-datepicker>
@@ -35,7 +49,7 @@
 
                 <mat-form-field class="example-full-width col-md-3 ml-12">
                     <mat-label>Generô</mat-label>
-                    <input name="gender" [(ngModel)]="gender" matInput placeholder="Insira seu genero" minlength="4" maxlength="120" required>
+                    <input name="gender" [(ngModel)]="userDto.gender" matInput placeholder="Insira seu genero" minlength="4" maxlength="120" required>
                 </mat-form-field>
 
 
@@ -46,45 +60,45 @@
 
                 <mat-form-field class="example-full-width col-md-5 mr-12">
                     <mat-label>Número</mat-label>
-                    <input name="streetNumber" [(ngModel)]="streetNumber" matInput placeholder="Digite o seu número" minlength="4" maxlength="120" required>
+                    <input name="streetNumber" [(ngModel)]="userDto.streetNumber" matInput placeholder="Digite o seu número" minlength="4" maxlength="120" required>
                 </mat-form-field>
 
                 <mat-form-field class="example-full-width col-md-6">
                     <mat-label>Complemento</mat-label>
-                    <input name="complement" [(ngModel)]="complement" matInput placeholder="Digite o seu Complemento" minlength="4" maxlength="120" required>
+                    <input name="complement" [(ngModel)]="userDto.complement" matInput placeholder="Digite o seu Complemento" minlength="4" maxlength="120" required>
                 </mat-form-field>
 
                 <mat-form-field class="example-full-width col-md-5 mr-12">
                     <mat-label>Rua</mat-label>
-                    <input name="street" [(ngModel)]="street" disabled="true" matInput minlength="4" maxlength="120" required>
+                    <input name="street" [(ngModel)]="userDto.street" disabled="true" matInput minlength="4" maxlength="120" required>
                 </mat-form-field>
 
                 <mat-form-field class="example-full-width col-md-6">
                     <mat-label>Bairro</mat-label>
-                    <input name="neighborhood" [(ngModel)]="neighborhood" disabled="true" matInput minlength="4" maxlength="120" required>
+                    <input name="neighborhood" [(ngModel)]="userDto.neighborhood" disabled="true" matInput minlength="4" maxlength="120" required>
                 </mat-form-field>
 
                 <mat-form-field class="example-full-width col-md-5 mr-12">
                     <mat-label>Localidade</mat-label>
-                    <input name="locality" [(ngModel)]="locality" disabled="true" matInput minlength="4" maxlength="120" required>
+                    <input name="locality" [(ngModel)]="userDto.locality" disabled="true" matInput minlength="4" maxlength="120" required>
                 </mat-form-field>
 
                 <mat-form-field class="example-full-width col-md-6">
                     <mat-label>UF</mat-label>
-                    <input name="uf" [(ngModel)]="uf" disabled="true" matInput minlength="4" maxlength="120" required>
+                    <input name="uf" [(ngModel)]="userDto.uf" disabled="true" matInput minlength="4" maxlength="120" required>
                 </mat-form-field>
 
                 <mat-form-field class="example-full-width col-md-5 mr-12">
                     <mat-label>DD</mat-label>
-                    <input name="dd" [(ngModel)]="dd" matInput minlength="4" maxlength="120" required>
+                    <input name="dd" [(ngModel)]="userDto.dd" matInput minlength="4" maxlength="120" required>
                 </mat-form-field>
 
                 <mat-form-field class="example-full-width col-md-6">
                     <mat-label>phoneNumber</mat-label>
-                    <input name="phoneNumber" [(ngModel)]="phoneNumber" matInput minlength="4" maxlength="120" required>
+                    <input name="phoneNumber" [(ngModel)]="userDto.phoneNumber" matInput minlength="4" maxlength="120" required>
                 </mat-form-field>
                 <div class="col-md-11">
-                    <mat-checkbox class="example-margin" [(ngModel)]="admin">Admin</mat-checkbox>
+                    <mat-checkbox class="example-margin" [(ngModel)]="userDto.admin">Admin</mat-checkbox>
                     <button type="submit" class="btn btn-success float-right">Salvar</button>
                 </div>
               </form>
@@ -97,12 +111,12 @@
                             <form (ngSubmit)="login()">
                                 <mat-form-field class="example-full-width col-md-12">
                                     <mat-label>Email:</mat-label>
-                                    <input name="loginEmail" [(ngModel)]="loginEmail" matInput minlength="4" maxlength="120" required>
+                                    <input name="loginEmail" [(ngModel)]="loginSigin" matInput minlength="4" maxlength="120" required>
                                 </mat-form-field>
     
                                 <mat-form-field class="example-full-width col-md-12">
                                     <mat-label>Senha:</mat-label>
-                                    <input name="loginPassword" [(ngModel)]="loginPassword" matInput minlength="4" maxlength="120" required>
+                                    <input name="loginPassword" [(ngModel)]="passwordSigin" matInput minlength="4" maxlength="120" required>
                                 </mat-form-field>   
     
                                 <a href="">

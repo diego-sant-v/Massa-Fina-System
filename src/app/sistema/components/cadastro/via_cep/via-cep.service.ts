@@ -14,22 +14,6 @@ export class ViaCepService {
   
   findInformationsCep(cepParam: string): Observable<ViaCepDTO> {
     const apiUrl = `${this.apiUrlViaCep}${cepParam}/json/`;
-    
-    return this.http.get(apiUrl).pipe(
-      map((response: any) => {
-        return new ViaCepDTO(
-          response.cep,
-          response.logradouro,
-          response.complemento,
-          response.bairro,
-          response.localidade,
-          response.uf,
-          response.ibge,
-          response.gia,
-          response.ddd,
-          response.siafi
-        );
-      })
-    );
+    return this.http.get<ViaCepDTO>(apiUrl, {responseType: 'json'})
   }
 }

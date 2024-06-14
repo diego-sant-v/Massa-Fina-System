@@ -14,6 +14,24 @@ import { MAT_DATE_LOCALE, MatNativeDateModule } from '@angular/material/core';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { SidenavComponent } from './sistema/util/sidenav/sidenav.component';
+import { UserHomeComponent } from './sistema/user/user-home/user-home.component';
+import { MatSidenavModule } from '@angular/material/sidenav';
+import { MatListModule } from '@angular/material/list';
+import { NavbarSystemComponent } from './sistema/util/navbar-system/navbar-system.component';
+import { MatToolbarModule } from '@angular/material/toolbar';
+import { ButtonModule } from 'primeng/button';
+import { CardModule } from 'primeng/card';
+import { MatIconModule } from '@angular/material/icon';
+import { OrderComponent } from './sistema/user/order/order.component'
+import { MatSelectModule } from '@angular/material/select';
+import { AdminHomeComponent } from './sistema/admin/admin-home/admin-home.component';
+import { ProductComponent } from './sistema/admin/product/product.component';
+import { UploadImageModalComponent } from './sistema/util/upload-image-modal/upload-image-modal.component';
+
+
+
+
 
 
 @NgModule({
@@ -21,7 +39,14 @@ import { MatSnackBarModule } from '@angular/material/snack-bar';
     AppComponent,
     HomeComponent,
     NavbarComponent,
-    CadastroComponent
+    CadastroComponent,
+    SidenavComponent,
+    UserHomeComponent,
+    NavbarSystemComponent,
+    OrderComponent,
+    AdminHomeComponent,
+    ProductComponent,
+    UploadImageModalComponent
   ],
   imports: [
     BrowserModule,
@@ -33,7 +58,14 @@ import { MatSnackBarModule } from '@angular/material/snack-bar';
     MatDatepickerModule,
     MatNativeDateModule,
     MatCheckboxModule,
-    MatSnackBarModule
+    MatSnackBarModule,
+    MatSidenavModule,
+    MatListModule,
+    MatToolbarModule,
+    ButtonModule,
+    CardModule,
+    MatIconModule,
+    MatSelectModule
   ],
   providers: [{ provide: MAT_DATE_LOCALE, useValue: 'pt-br' }],//muda a linguagem e o tipo de data do datepicker
   bootstrap: [AppComponent]

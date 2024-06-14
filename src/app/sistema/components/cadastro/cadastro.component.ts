@@ -1,10 +1,12 @@
 import { Component } from '@angular/core';
-import { UserRegisterDTO } from '../../services/user/user-register-dto';
+import { UserRegisterDTO } from '../../models/user-register-dto';
 import { UserService } from '../../services/user/user-service';
 import { ViaCepService } from './via_cep/via-cep.service';
 import { formatDate } from '@angular/common';
 import { SnackBarService } from 'src/app/components/snack-bar/snack-bar.service';
 import { Router } from '@angular/router';
+import { ViaCepDTO } from './via_cep/via-cep-dto';
+import { RoleTypeEnum } from '../../enums/RoleTypeEnum';
 
 @Component({
   selector: 'app-cadastro',
@@ -12,41 +14,25 @@ import { Router } from '@angular/router';
   styleUrls: ['./cadastro.component.scss']
 })
 export class CadastroComponent {
-
-  userName: string = ''; 
-  email: string = '';
-  password: string = '';
-  repeatPassword: string = '';
-  dateOfBirth: string = '';
-  street: string = '';
-  streetNumber: number = 0;
-  cep: string = '';
-  gender: string = '';
-  neighborhood: string = '';
-  complement: string = '';
-  locality: string = '';
-  uf: string = '';
-  dd: number = 0;
-  phoneNumber: string = '';
-  admin: boolean = false; 
-  //LOGIN:
-  loginEmail: string = '';
-  loginPassword: string = '';
+  viaCepDto: ViaCepDTO[] = []; 
+  roles: string[] = Object.values(RoleTypeEnum).map(value => String(value));
+  roleSelected = "";
+  userDto: UserRegisterDTO = new UserRegisterDTO();
+  loginSigin = "";
+  passwordSigin = "";
+  repeatPassword = "";
+  cep = "";
   constructor(private userService: UserService, private viaCepServie: ViaCepService, private matSnackBar: SnackBarService,
     private router: Router) {
-    this.dateOfBirth = new Date().toISOString();
+    //this.dateOfBirth = new Date().toISOString();
   }
 
   consultarCep(cep: string) {
     if(cep){
       this.viaCepServie.findInformationsCep(cep).subscribe({
-        next: (informations) => {
-          this.neighborhood = informations.bairro;
-          this.locality = informations.localidade;
-          this.street = informations.logradouro;
-          this.uf = informations.uf;
-          
+        next: (informations: ViaCepDTO) => {
           console.log('Informações do cep:', informations);
+          this.populateCepInUser(informations)
         },
         error:(error: any) => {
           console.log('Erro ao consultar cep', error);
@@ -57,28 +43,23 @@ export class CadastroComponent {
     }
   }
 
+  populateCepInUser(informations: ViaCepDTO){
+    console.log(typeof(informations), informations)
+      this.userDto.locality = informations.localidade;
+      this.userDto.complement = informations.complemento;
+      this.userDto.cep = informations.cep;
+      this.userDto.dd = informations.ddd;
+      this.userDto.neighborhood = informations.bairro;
+      this.userDto.street = informations.logradouro;
+      this.userDto.uf = informations.uf;
+      console.log(typeof(informations), informations)
+  }
+
   register() {
-    const userDto = new UserRegisterDTO(
-      this.userName,
-      this.email,
-      this.password,
-      this.dateOfBirth,
-      this.gender,
-      this.street,
-      this.streetNumber,
-      this.cep,
-      this.neighborhood,
-      this.complement,
-      this.locality,
-      this.uf,
-      this.dd,
-      this.admin,
-      this.phoneNumber
-    );
-    console.log('teste massa', userDto)
-    this.userService.registerUser(userDto).subscribe({
-      next: () => {
-        console.log('Usuário registrado com sucesso');
+    this.userDto.dateOfBirth = "1990-01-01"
+    this.userService.registerUser(this.userDto).subscribe({
+      next: (result) => {
+        console.log('Usuário registrado com sucesso', result);
         this.matSnackBar.openSnackBar("Usuário salvo com sucesso", "X")
       },
       error:(error: any) => {
@@ -88,9 +69,11 @@ export class CadastroComponent {
   }
 
   login(){
-    this.userService.loginUser(this.loginEmail, this.loginPassword).subscribe({
+    this.userService.loginUser(this.loginSigin, this.passwordSigin).subscribe({
       next: (result: UserRegisterDTO) => {
-        this.loadHomeSistemByTipeUser(result.admin)
+        console.log('no result', result)
+        this.userService.setUserAccountLogged(result)
+        this.loadHomeSistemByTipeUser(result.role)
         this.matSnackBar.openSnackBar(`Bem vindo, ${result.userName}`, "X")
       },
       error:(error: any) => {
@@ -99,11 +82,12 @@ export class CadastroComponent {
     });
   }
 
-  loadHomeSistemByTipeUser(isAdmin: Boolean){
-    if(isAdmin){
-      this.router.navigate(['/admin-home']);
+  loadHomeSistemByTipeUser(role: String){
+    this.router.navigate(['user/user-home']);
+    if(role == "ADMIN"){
+      this.router.navigate(['admin/admin-home']);
     }else{
-      this.router.navigate(['/user-home']);
+      this.router.navigate(['user/user-home']);
     }
   }
 
